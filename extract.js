@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Método no permitido" });
   }
@@ -53,4 +53,12 @@ export default async function handler(req, res) {
     console.error("Backend Error:", error);
     return res.status(500).json({ error: error.message || "Error interno del servidor" });
   }
-}
+};
+
+module.exports.config = {
+  api: {
+    bodyParser: {
+      sizeLimit: '4.5mb'
+    }
+  }
+};

@@ -16,10 +16,20 @@ async function extractFile(file) {
     return extractionCache.get(cacheKey);
   }
 
+  if (window.location.protocol === "file:") {
+    throw new Error("Estás abriendo el archivo localmente. El backend seguro requiere que subas el proyecto a Vercel y uses el enlace público.");
+  }
+
   setStatus(`Subiendo ${file.name} a tu servidor en Vercel...`, 20);
 
   try {
     const base64Data = await fileToBase64(file);
+    
+    // Check for Vercel payload limit (aprox 3.3MB base file -> 4.5MB base64)
+    if (base64Data.length > 4400000) {
+       toast("Advertencia: El archivo es grande. Podría superar el límite de Vercel (4.5MB).");
+    }
+
     const mimeType = file.type || "application/pdf";
 
     setStatus(`El servidor está analizando con Gemini 1.5 Flash...`, 60);

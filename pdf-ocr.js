@@ -11,73 +11,98 @@ function fileToBase64(file) {
 }
 
 async function extractFile(file) {
+  console.log("Iniciando extracción para el archivo:", file.name);
+  
   const cacheKey = `${file.name}::${file.size}::${file.lastModified}`;
   if (extractionCache.has(cacheKey)) {
+    console.log("Archivo encontrado en caché.");
     return extractionCache.get(cacheKey);
   }
 
-  if (window.location.protocol === "file:") {
-    throw new Error("Estás abriendo el archivo localmente. El backend seguro requiere que subas el proyecto a Vercel y uses el enlace público.");
+  // Verificar la API Key primero
+  const apiKey = window.ENV?.GEMINI_API_KEY || "";
+  
+  if (!apiKey || apiKey === "TU_CLAVE_AQUI") {
+    const errorMsg = "Clave no configurada. Verifica que window.ENV.GEMINI_API_KEY exista.";
+    console.error(errorMsg);
+    toast(errorMsg);
+    alert(errorMsg);
+    throw new Error(errorMsg);
   }
 
-  setStatus(`Subiendo ${file.name} a tu servidor en Vercel...`, 20);
+  setStatus(`Subiendo ${file.name} a Gemini API...`, 20);
 
   try {
     const base64Data = await fileToBase64(file);
-    
-    // Check for Vercel payload limit (aprox 3.3MB base file -> 4.5MB base64)
-    if (base64Data.length > 4400000) {
-       toast("Advertencia: El archivo es grande. Podría superar el límite de Vercel (4.5MB).");
-    }
-
     const mimeType = file.type || "application/pdf";
 
-    setStatus(`El servidor está analizando con Gemini 1.5 Flash...`, 60);
+    setStatus(`Procesando con Gemini 1.5 Flash...`, 60);
 
-    const response = await fetch(`/api/extract`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        mimeType: mimeType,
-        data: base64Data
+        contents: [
+          {
+            parts: [
+              {
+                text: "Extraer todo el texto de este documento de la forma más precisa posible sin inventar nada."
+              },
+              {
+                inlineData: {
+                  mimeType: mimeType,
+                  data: base64Data
+                }
+              }
+            ]
+          }
+        ]
       })
     });
 
     if (!response.ok) {
-      let errorMsg = `Error del servidor: ${response.statusText}`;
+      let errorMsg = `Error de red o API de Gemini (${response.status} ${response.statusText})`;
       try {
         const errorData = await response.json();
-        if (errorData.error) errorMsg = errorData.error;
-      } catch (e) {} // Ignorar si no es JSON (ej. Vercel 500 HTML)
+        if (errorData.error && errorData.error.message) {
+          errorMsg = `Error de Gemini: ${errorData.error.message}`;
+        }
+      } catch (e) {}
       
-      console.error("Backend Error:", errorMsg);
+      console.error(errorMsg);
+      toast(errorMsg);
       throw new Error(errorMsg);
     }
 
     const data = await response.json();
-
     let extractedText = "";
     if (data.candidates && data.candidates[0].content && data.candidates[0].content.parts) {
       extractedText = data.candidates[0].content.parts.map(p => p.text).join("\n");
     }
 
     if (!extractedText) {
-      throw new Error("Gemini no pudo extraer texto del archivo.");
+      const errorMsg = "Gemini no pudo extraer texto del archivo.";
+      console.error(errorMsg);
+      toast(errorMsg);
+      throw new Error(errorMsg);
     }
 
     const payload = {
       text: extractedText,
-      mode: "Gemini 1.5 Flash (Backend Seguro)",
+      mode: "Gemini 1.5 Flash",
       status: "ok",
-      note: "Extraído vía Inteligencia Artificial procesada en Servidor"
+      note: "Extraído vía Inteligencia Artificial (Gemini)"
     };
 
     extractionCache.set(cacheKey, payload);
     return payload;
 
   } catch (error) {
+    console.error("Fallo durante la extracción:", error);
+    // El catch ya delega a app.js, pero mostramos un toast por seguridad
+    toast(error.message || "Error desconocido al procesar el archivo");
     throw error;
   }
 }

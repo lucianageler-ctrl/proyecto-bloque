@@ -46,9 +46,14 @@ async function extractFile(file) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Backend Error:", errorData);
-      throw new Error(errorData.error || `Error del servidor: ${response.statusText}`);
+      let errorMsg = `Error del servidor: ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        if (errorData.error) errorMsg = errorData.error;
+      } catch (e) {} // Ignorar si no es JSON (ej. Vercel 500 HTML)
+      
+      console.error("Backend Error:", errorMsg);
+      throw new Error(errorMsg);
     }
 
     const data = await response.json();

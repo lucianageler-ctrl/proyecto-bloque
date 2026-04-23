@@ -116,8 +116,13 @@ function bindEvents() {
   input.addEventListener("change", async (e) => {
     const files = e.target.files;
     if (!files?.length) return;
-    await handleFiles(files);
-    input.value = "";
+    try {
+      await handleFiles(files);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      input.value = "";
+    }
   });
 
   ["dragenter", "dragover"].forEach((evt) => {

@@ -113,17 +113,17 @@ function bindEvents() {
     }
   });
 
-  input.addEventListener("change", async (e) => {
-    const files = e.target.files;
+  window.handleFileSelect = async (inputElement) => {
+    const files = inputElement.files;
     if (!files?.length) return;
     try {
       await handleFiles(files);
     } catch (err) {
       console.error(err);
     } finally {
-      input.value = "";
+      inputElement.value = "";
     }
-  });
+  };
 
   ["dragenter", "dragover"].forEach((evt) => {
     dropzone.addEventListener(evt, (e) => {

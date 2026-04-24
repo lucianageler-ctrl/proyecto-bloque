@@ -573,6 +573,7 @@ tbody tr:hover {
               type="file"
               multiple
               accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
+              onchange="if(window.handleFileSelect) window.handleFileSelect(this);"
             />
 
             <div class="status-box">

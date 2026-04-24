@@ -67,14 +67,14 @@ function renderComparison() {
   const docB = state.docs.find((d) => d.id === idB);
 
   if (!docA || !docB) {
-    resultBox.innerHTML = \`<div class="empty-state">Seleccioná dos documentos válidos para comparar.</div>\`;
+    resultBox.innerHTML = `<div class="empty-state">Seleccioná dos documentos válidos para comparar.</div>`;
     $("#analysisSummary").innerHTML = buildExecutiveSummary(null);
     return;
   }
 
   const result = compareDocs(docA, docB);
 
-  resultBox.innerHTML = \`
+  resultBox.innerHTML = `
     <div class="summary-grid">
       <div class="summary-mini"><span>Bloques en A</span><strong>\${result.totalA}</strong></div>
       <div class="summary-mini"><span>Bloques en B</span><strong>\${result.totalB}</strong></div>
@@ -101,7 +101,7 @@ function renderComparison() {
         <tbody>
           \${result.added.map((item) => {
             const analysis = analyzeNormativeChange("", item.b.content, "Agregado", docB.mode);
-            return \`
+            return `
             <tr>
               <td><strong>\${escapeHtml(toSentenceCase(item.b.title))}</strong></td>
               <td>Agregado</td>
@@ -114,12 +114,12 @@ function renderComparison() {
               <td>\${escapeHtml(analysis.politicalRelevance)}</td>
               <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
             </tr>
-            \`;
+            `;
           }).join("")}
 
           \${result.removed.map((item) => {
             const analysis = analyzeNormativeChange(item.a.content, "", "Eliminación", docA.mode);
-            return \`
+            return `
             <tr>
               <td><strong>\${escapeHtml(toSentenceCase(item.a.title))}</strong></td>
               <td>Eliminación</td>
@@ -132,12 +132,12 @@ function renderComparison() {
               <td>\${escapeHtml(analysis.politicalRelevance)}</td>
               <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
             </tr>
-            \`;
+            `;
           }).join("")}
 
           \${result.modified.map((item) => {
             const analysis = analyzeNormativeChange(item.a.content, item.b.content, "Modificación", docB.mode);
-            return \`
+            return `
             <tr>
               <td><strong>\${escapeHtml(toSentenceCase(item.a.title))}</strong></td>
               <td>Modificación</td>
@@ -150,11 +150,11 @@ function renderComparison() {
               <td>\${escapeHtml(analysis.politicalRelevance)}</td>
               <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
             </tr>
-            \`;
+            `;
           }).join("")}
         </tbody>
       </table>
-    </div>\`;
+    </div>`;
 
   $("#analysisSummary").innerHTML = buildExecutiveSummary(result);
 }
@@ -164,13 +164,13 @@ function renderDocList() {
   if (!tableBody) return;
 
   if (!state.docs.length) {
-    tableBody.innerHTML = \`
+    tableBody.innerHTML = `
       <tr>
         <td colspan="10">
           <div class="empty-state">Todavía no hay documentos cargados.</div>
         </td>
       </tr>
-    \`;
+    `;
     return;
   }
 
@@ -180,7 +180,7 @@ function renderDocList() {
     const currentText = firstBlock?.content || doc.text || "";
     const analysis = analyzeNormativeChange("", currentText, "Modificación", doc.mode);
 
-    return \`
+    return `
       <tr>
         <td><strong>\${escapeHtml(articleSection)}</strong></td>
         <td>Modificación</td>
@@ -195,15 +195,15 @@ function renderDocList() {
         <td>\${escapeHtml(analysis.politicalRelevance)}</td>
         <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
       </tr>
-    \`;
+    `;
   }).join("");
 }
 
 function renderPreviewOptions() {
   const selects = [$("#previewSelect"), $("#compareA"), $("#compareB")];
   const options = state.docs.length
-    ? state.docs.map((doc) => \`<option value="\${doc.id}">\${escapeHtml(doc.filename)}</option>\`).join("")
-    : \`<option value="">Sin documentos</option>\`;
+    ? state.docs.map((doc) => `<option value="\${doc.id}">\${escapeHtml(doc.filename)}</option>`).join("")
+    : `<option value="">Sin documentos</option>`;
 
   selects.forEach((select) => {
     select.innerHTML = options;

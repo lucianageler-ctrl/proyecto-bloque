@@ -19,18 +19,8 @@ async function extractFile(file) {
     return extractionCache.get(cacheKey);
   }
 
-  // Verificar la API Key primero
-  const apiKey = window.ENV?.GEMINI_API_KEY || "";
-  
-  if (!apiKey || apiKey === "TU_CLAVE_AQUI") {
-    const errorMsg = "Clave no configurada. Verifica que window.ENV.GEMINI_API_KEY exista.";
-    console.error(errorMsg);
-    toast(errorMsg);
-    alert(errorMsg);
-    throw new Error(errorMsg);
-  }
-
-  setStatus(`Subiendo ${file.name} a Gemini API...`, 20);
+ 
+    setStatus(`Subiendo ${file.name} al backend...`, 20);
 
   try {
     const base64Data = await fileToBase64(file);
@@ -38,27 +28,14 @@ async function extractFile(file) {
 
     setStatus(`Procesando con Gemini 1.5 Flash...`, 60);
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+     const response = await fetch("/api/extract", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: "Extraer todo el texto de este documento de la forma más precisa posible sin inventar nada."
-              },
-              {
-                inlineData: {
-                  mimeType: mimeType,
-                  data: base64Data
-                }
-              }
-            ]
-          }
-        ]
+        mimeType: mimeType,
+        data: base64Data
       })
     });
 

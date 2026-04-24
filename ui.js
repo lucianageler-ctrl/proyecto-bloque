@@ -76,10 +76,10 @@ function renderComparison() {
 
   resultBox.innerHTML = `
     <div class="summary-grid">
-      <div class="summary-mini"><span>Bloques en A</span><strong>\${result.totalA}</strong></div>
-      <div class="summary-mini"><span>Bloques en B</span><strong>\${result.totalB}</strong></div>
-      <div class="summary-mini"><span>Agregados</span><strong>\${result.added.length}</strong></div>
-      <div class="summary-mini"><span>Modificados</span><strong>\${result.modified.length}</strong></div>
+      <div class="summary-mini"><span>Bloques en A</span><strong>${result.totalA}</strong></div>
+      <div class="summary-mini"><span>Bloques en B</span><strong>${result.totalB}</strong></div>
+      <div class="summary-mini"><span>Agregados</span><strong>${result.added.length}</strong></div>
+      <div class="summary-mini"><span>Modificados</span><strong>${result.modified.length}</strong></div>
     </div>
 
     <div class="workspace-table-wrap">
@@ -99,56 +99,56 @@ function renderComparison() {
           </tr>
         </thead>
         <tbody>
-          \${result.added.map((item) => {
+          ${result.added.map((item) => {
             const analysis = analyzeNormativeChange("", item.b.content, "Agregado", docB.mode);
             return `
             <tr>
-              <td><strong>\${escapeHtml(toSentenceCase(item.b.title))}</strong></td>
+              <td><strong>${escapeHtml(toSentenceCase(item.b.title))}</strong></td>
               <td>Agregado</td>
               <td>Se incorpora un artículo o sección nueva que no estaba en el proyecto original.</td>
               <td>No estaba presente en el proyecto original.</td>
-              <td>\${escapeHtml(simplifyText(item.b.content, 220))}</td>
-              <td>\${escapeHtml(analysis.category)}</td>
-              <td>\${escapeHtml(analysis.legalImpact)}</td>
-              <td>\${escapeHtml(analysis.practicalImpact)}</td>
-              <td>\${escapeHtml(analysis.politicalRelevance)}</td>
-              <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
+              <td>${escapeHtml(simplifyText(item.b.content, 220))}</td>
+              <td>${escapeHtml(analysis.category)}</td>
+              <td>${escapeHtml(analysis.legalImpact)}</td>
+              <td>${escapeHtml(analysis.practicalImpact)}</td>
+              <td>${escapeHtml(analysis.politicalRelevance)}</td>
+              <td><span class="hint">${escapeHtml(analysis.observation)}</span></td>
             </tr>
             `;
           }).join("")}
 
-          \${result.removed.map((item) => {
+          ${result.removed.map((item) => {
             const analysis = analyzeNormativeChange(item.a.content, "", "Eliminación", docA.mode);
             return `
             <tr>
-              <td><strong>\${escapeHtml(toSentenceCase(item.a.title))}</strong></td>
+              <td><strong>${escapeHtml(toSentenceCase(item.a.title))}</strong></td>
               <td>Eliminación</td>
               <td>Se elimina un artículo o sección que estaba presente en el proyecto original.</td>
-              <td>\${escapeHtml(simplifyText(item.a.content, 220))}</td>
+              <td>${escapeHtml(simplifyText(item.a.content, 220))}</td>
               <td>No aparece en la versión modificada / sancionada.</td>
-              <td>\${escapeHtml(analysis.category)}</td>
-              <td>\${escapeHtml(analysis.legalImpact)}</td>
-              <td>\${escapeHtml(analysis.practicalImpact)}</td>
-              <td>\${escapeHtml(analysis.politicalRelevance)}</td>
-              <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
+              <td>${escapeHtml(analysis.category)}</td>
+              <td>${escapeHtml(analysis.legalImpact)}</td>
+              <td>${escapeHtml(analysis.practicalImpact)}</td>
+              <td>${escapeHtml(analysis.politicalRelevance)}</td>
+              <td><span class="hint">${escapeHtml(analysis.observation)}</span></td>
             </tr>
             `;
           }).join("")}
 
-          \${result.modified.map((item) => {
+          ${result.modified.map((item) => {
             const analysis = analyzeNormativeChange(item.a.content, item.b.content, "Modificación", docB.mode);
             return `
             <tr>
-              <td><strong>\${escapeHtml(toSentenceCase(item.a.title))}</strong></td>
+              <td><strong>${escapeHtml(toSentenceCase(item.a.title))}</strong></td>
               <td>Modificación</td>
               <td>Se modifica el contenido del artículo o sección existente entre ambas versiones.</td>
-              <td>\${escapeHtml(simplifyText(item.a.content, 220))}</td>
-              <td>\${escapeHtml(simplifyText(item.b.content, 220))}</td>
-              <td>\${escapeHtml(analysis.category)}</td>
-              <td>\${escapeHtml(analysis.legalImpact)}</td>
-              <td>\${escapeHtml(analysis.practicalImpact)}</td>
-              <td>\${escapeHtml(analysis.politicalRelevance)}</td>
-              <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
+              <td>${escapeHtml(simplifyText(item.a.content, 220))}</td>
+              <td>${escapeHtml(simplifyText(item.b.content, 220))}</td>
+              <td>${escapeHtml(analysis.category)}</td>
+              <td>${escapeHtml(analysis.legalImpact)}</td>
+              <td>${escapeHtml(analysis.practicalImpact)}</td>
+              <td>${escapeHtml(analysis.politicalRelevance)}</td>
+              <td><span class="hint">${escapeHtml(analysis.observation)}</span></td>
             </tr>
             `;
           }).join("")}
@@ -182,18 +182,18 @@ function renderDocList() {
 
     return `
       <tr>
-        <td><strong>\${escapeHtml(articleSection)}</strong></td>
+        <td><strong>${escapeHtml(articleSection)}</strong></td>
         <td>Modificación</td>
         <td>
-          Documento procesado en modo \${escapeHtml(doc.mode || "—")} con \${countWords(doc.text)} palabra(s) extraída(s).
+          Documento procesado en modo ${escapeHtml(doc.mode || "—")} con ${countWords(doc.text)} palabra(s) extraída(s).
         </td>
         <td>No disponible hasta comparar con una versión original.</td>
-        <td>\${escapeHtml(simplifyText(currentText, 220))}</td>
-        <td>\${escapeHtml(analysis.category)}</td>
-        <td>\${escapeHtml(analysis.legalImpact)}</td>
-        <td>\${escapeHtml(analysis.practicalImpact)}</td>
-        <td>\${escapeHtml(analysis.politicalRelevance)}</td>
-        <td><span class="hint">\${escapeHtml(analysis.observation)}</span></td>
+        <td>${escapeHtml(simplifyText(currentText, 220))}</td>
+        <td>${escapeHtml(analysis.category)}</td>
+        <td>${escapeHtml(analysis.legalImpact)}</td>
+        <td>${escapeHtml(analysis.practicalImpact)}</td>
+        <td>${escapeHtml(analysis.politicalRelevance)}</td>
+        <td><span class="hint">${escapeHtml(analysis.observation)}</span></td>
       </tr>
     `;
   }).join("");
@@ -202,7 +202,7 @@ function renderDocList() {
 function renderPreviewOptions() {
   const selects = [$("#previewSelect"), $("#compareA"), $("#compareB")];
   const options = state.docs.length
-    ? state.docs.map((doc) => `<option value="\${doc.id}">\${escapeHtml(doc.filename)}</option>`).join("")
+    ? state.docs.map((doc) => `<option value="${doc.id}">${escapeHtml(doc.filename)}</option>`).join("")
     : `<option value="">Sin documentos</option>`;
 
   selects.forEach((select) => {

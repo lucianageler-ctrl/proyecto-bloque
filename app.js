@@ -50,7 +50,7 @@ function validateFile(file) {
     throw new Error("Archivo inválido. Solo se admiten PDF, JPG, JPEG, PNG y WEBP.");
   }
   if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
-    toast(`Archivo pesado detectado (${(file.size / 1024 / 1024).toFixed(1)} MB). El procesamiento puede tardar bastante.`);
+    throw new Error(`El archivo es demasiado grande (${(file.size / 1024 / 1024).toFixed(1)} MB). El límite máximo es ${MAX_FILE_SIZE_MB} MB debido a las restricciones del servidor.`);
   }
 }
 

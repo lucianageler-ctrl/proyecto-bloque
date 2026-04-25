@@ -1,4 +1,4 @@
-import { normalizeText, countWords } from './utils.js';
+import { normalizeText, countWords } from './utils.js?v=3.0';
 
 export function detectThematicCategory(text) {
   const source = (text || "").toLowerCase();

@@ -1,4 +1,4 @@
-import { normalizeText } from './utils.js';
+import { normalizeText } from './utils.js?v=3.0';
 
 export function extractBlocks(text) {
   const source = normalizeText(text);

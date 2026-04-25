@@ -1,5 +1,5 @@
-import { extractionCache } from './config.js';
-import { setStatus, toast } from './utils.js';
+import { extractionCache } from './config.js?v=3.0';
+import { setStatus, toast } from './utils.js?v=3.0';
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {

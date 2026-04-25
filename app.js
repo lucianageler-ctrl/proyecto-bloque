@@ -1,9 +1,9 @@
-import { STORAGE_KEY, MAX_FILE_SIZE_MB, state } from './config.js';
-import { $, uid, toast, setStatus, normalizeText } from './utils.js';
-import { extractBlocks } from './compare.js';
-import { extractFile } from './pdf-ocr.js';
-import { renderAll, renderComparison, renderPreviewOptions } from './ui.js';
-import { exportAnalysisToPDF, exportAnalysisToWord } from './export.js';
+import { STORAGE_KEY, MAX_FILE_SIZE_MB, state } from './config.js?v=3.0';
+import { $, uid, toast, setStatus, normalizeText } from './utils.js?v=3.0';
+import { extractBlocks } from './compare.js?v=3.0';
+import { extractFile } from './pdf-ocr.js?v=3.0';
+import { renderAll, renderComparison, renderPreviewOptions } from './ui.js?v=3.0';
+import { exportAnalysisToPDF, exportAnalysisToWord } from './export.js?v=3.0';
 
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.docs));

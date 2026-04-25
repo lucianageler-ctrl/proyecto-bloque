@@ -1,7 +1,7 @@
-import { state } from './config.js';
-import { $, escapeHtml, toSentenceCase, simplifyText, countWords } from './utils.js';
-import { analyzeNormativeChange } from './analysis.js';
-import { compareDocs } from './compare.js';
+import { state } from './config.js?v=3.0';
+import { $, escapeHtml, toSentenceCase, simplifyText, countWords } from './utils.js?v=3.0';
+import { analyzeNormativeChange } from './analysis.js?v=3.0';
+import { compareDocs } from './compare.js?v=3.0';
 
 export function getDocStatusClass(status) {
   if (status === "ok") return "ok";

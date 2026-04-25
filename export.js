@@ -1,5 +1,5 @@
-import { state } from './config.js';
-import { deriveImpact } from './analysis.js';
+import { state } from './config.js?v=3.0';
+import { deriveImpact } from './analysis.js?v=3.0';
 
 export async function exportAnalysisToPDF() {
   const target = document.body;

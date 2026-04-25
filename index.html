@@ -563,19 +563,20 @@ tbody tr:hover {
                 <strong>Arrastrá archivos o hacé clic para seleccionar</strong>
                 <p>PDFs con texto se leen directamente. PDFs escaneados e imágenes pasan por OCR.</p>
                 <div class="toolbar" style="justify-content:center; margin-top:14px;">
-                  <label for="fileInput" class="btn primary" id="selectBtn" style="display: inline-flex; cursor: pointer;">Seleccionar archivos</label>
+                  <label class="btn primary" id="selectBtn" style="display: inline-flex; cursor: pointer;">
+                    Seleccionar archivos
+                    <input
+                      id="fileInput"
+                      style="opacity: 0; position: absolute; left: -9999px; width: 0; height: 0;"
+                      type="file"
+                      multiple
+                      accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
+                      onchange="if(window.handleFileSelect) window.handleFileSelect(this);"
+                    />
+                  </label>
                 </div>
               </div>
             </div>
-
-            <input
-              id="fileInput"
-              style="opacity: 0; position: absolute; left: -9999px;"
-              type="file"
-              multiple
-              accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
-              onchange="if(window.handleFileSelect) window.handleFileSelect(this);"
-            />
 
             <div class="status-box">
               <h3>Estado del procesamiento</h3>

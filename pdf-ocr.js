@@ -1,3 +1,6 @@
+import { extractionCache } from './config.js';
+import { setStatus, toast } from './utils.js';
+
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -10,7 +13,7 @@ function fileToBase64(file) {
   });
 }
 
-async function extractFile(file) {
+export async function extractFile(file) {
   console.log(`[FRONTEND] Iniciando extracción para el archivo: ${file.name} (Tamaño: ${file.size} bytes)`);
   
   const cacheKey = `${file.name}::${file.size}::${file.lastModified}`;

@@ -1,3 +1,10 @@
+import { STORAGE_KEY, MAX_FILE_SIZE_MB, state } from './config.js';
+import { $, uid, toast, setStatus, normalizeText } from './utils.js';
+import { extractBlocks } from './compare.js';
+import { extractFile } from './pdf-ocr.js';
+import { renderAll, renderComparison, renderPreviewOptions } from './ui.js';
+import { exportAnalysisToPDF, exportAnalysisToWord } from './export.js';
+
 function saveState() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state.docs));
 }

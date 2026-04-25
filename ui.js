@@ -1,16 +1,21 @@
-function getDocStatusClass(status) {
+import { state } from './config.js';
+import { $, escapeHtml, toSentenceCase, simplifyText, countWords } from './utils.js';
+import { analyzeNormativeChange } from './analysis.js';
+import { compareDocs } from './compare.js';
+
+export function getDocStatusClass(status) {
   if (status === "ok") return "ok";
   if (status === "partial") return "partial";
   return "error";
 }
 
-function getDocStatusLabel(status) {
+export function getDocStatusLabel(status) {
   if (status === "ok") return "Procesado";
   if (status === "partial") return "Lectura parcial";
   return "Error";
 }
 
-function buildExecutiveSummary(compareData = null) {
+export function buildExecutiveSummary(compareData = null) {
   const docs = state.docs || [];
   const processed = docs.filter(d => d.status === "ok").length;
   const partial = docs.filter(d => d.status === "partial").length;
@@ -58,7 +63,7 @@ function buildExecutiveSummary(compareData = null) {
   `;
 }
 
-function renderComparison() {
+export function renderComparison() {
   const resultBox = $("#compareResults");
   const idA = $("#compareA").value;
   const idB = $("#compareB").value;
@@ -159,7 +164,7 @@ function renderComparison() {
   $("#analysisSummary").innerHTML = buildExecutiveSummary(result);
 }
 
-function renderDocList() {
+export function renderDocList() {
   const tableBody = $("#workspaceTableBody");
   if (!tableBody) return;
 
@@ -199,7 +204,7 @@ function renderDocList() {
   }).join("");
 }
 
-function renderPreviewOptions() {
+export function renderPreviewOptions() {
   const selects = [$("#previewSelect"), $("#compareA"), $("#compareB")];
   const options = state.docs.length
     ? state.docs.map((doc) => `<option value="${doc.id}">${escapeHtml(doc.filename)}</option>`).join("")
@@ -227,7 +232,7 @@ function renderPreviewOptions() {
   $("#previewText").value = doc ? doc.text : "";
 }
 
-function renderStats() {
+export function renderStats() {
   $("#statDocs").textContent = state.docs.length;
   if (!state.docs.length) {
     $("#statMode").textContent = "—";
@@ -235,7 +240,7 @@ function renderStats() {
   }
 }
 
-function renderAll() {
+export function renderAll() {
   renderDocList();
   renderPreviewOptions();
   renderStats();

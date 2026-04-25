@@ -1,4 +1,6 @@
-function detectThematicCategory(text) {
+import { normalizeText, countWords } from './utils.js';
+
+export function detectThematicCategory(text) {
   const source = (text || "").toLowerCase();
 
   const scores = [
@@ -24,7 +26,7 @@ function detectThematicCategory(text) {
   return scores[0].score > 0 ? scores[0].name : "Laboral individual";
 }
 
-function analyzeNormativeChange(beforeText, afterText, changeType, mode = "") {
+export function analyzeNormativeChange(beforeText, afterText, changeType, mode = "") {
   const beforeClean = normalizeText(beforeText || "");
   const afterClean = normalizeText(afterText || "");
   const combined = `${beforeClean} ${afterClean}`.toLowerCase();
@@ -95,7 +97,7 @@ function analyzeNormativeChange(beforeText, afterText, changeType, mode = "") {
   };
 }
 
-function deriveImpact(doc) {
+export function deriveImpact(doc) {
   const text = (doc.text || "").toLowerCase();
   const words = countWords(doc.text || "");
 

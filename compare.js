@@ -1,4 +1,6 @@
-function extractBlocks(text) {
+import { normalizeText } from './utils.js';
+
+export function extractBlocks(text) {
   const source = normalizeText(text);
   if (!source) return [];
 
@@ -32,7 +34,7 @@ function extractBlocks(text) {
     .filter((b) => b.content);
 }
 
-function compareDocs(docA, docB) {
+export function compareDocs(docA, docB) {
   const aBlocks = docA.blocks || [];
   const bBlocks = docB.blocks || [];
 

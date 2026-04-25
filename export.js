@@ -1,4 +1,7 @@
-async function exportAnalysisToPDF() {
+import { state } from './config.js';
+import { deriveImpact } from './analysis.js';
+
+export async function exportAnalysisToPDF() {
   const target = document.body;
   const canvas = await html2canvas(target, { scale: 2, backgroundColor: "#ffffff" });
   const imgData = canvas.toDataURL("image/png");
@@ -27,7 +30,7 @@ async function exportAnalysisToPDF() {
   pdf.save("analisis-documental.pdf");
 }
 
-async function exportAnalysisToWord() {
+export async function exportAnalysisToWord() {
   const { Document, Packer, Paragraph, TextRun } = window.docx;
 
   const lines = [];
